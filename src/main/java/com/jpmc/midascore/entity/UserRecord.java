@@ -1,31 +1,27 @@
 package com.jpmc.midascore.entity;
 
+import com.jpmc.midascore.foundation.Balance;
 import jakarta.persistence.*;
 
 @Entity
 public class UserRecord {
 
     @Id
-    @GeneratedValue()
-    private long id;
+    @GeneratedValue
+    private Long id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private float balance;
+    @Embedded
+    private Balance balance;
 
     protected UserRecord() {
     }
 
-    public UserRecord(String name, float balance) {
+    public UserRecord(String name, Balance balance) {
         this.name = name;
         this.balance = balance;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("User[id=%d, name='%s', balance='%f'", id, name, balance);
     }
 
     public Long getId() {
@@ -36,11 +32,19 @@ public class UserRecord {
         return name;
     }
 
-    public float getBalance() {
+    public Balance getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(Balance balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "User[id=%d, name='%s', balance=%s]",
+                id, name, balance
+        );
     }
 }
